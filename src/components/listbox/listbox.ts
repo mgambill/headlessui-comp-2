@@ -175,12 +175,11 @@ export let Listbox = defineComponent({
           return nextOptions.indexOf(currentActiveOption)
         })()
       },
-      select(value: unknown) {
+      select(value:any) {
         if (disabled) return
         if (multiple) {
           const arr = toRaw(props?.modelValue) ?? []
           const index = arr.indexOf(value)
-          console.log(index, arr, value)
           if (index === -1) {
             emit('update:modelValue', [...arr, value])
           } else {
