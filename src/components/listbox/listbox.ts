@@ -39,12 +39,13 @@ type StateDefinition = {
   buttonRef: Ref<HTMLButtonElement | null>
   optionsRef: Ref<HTMLDivElement | null>
   disabled: Ref<boolean>
+  multiple: Ref<boolean>
   options: Ref<{ id: string; dataRef: ListboxOptionDataRef }[]>
   searchQuery: Ref<string>
   activeOptionIndex: Ref<number | null>
 
   // State mutators
-  closeListbox(): void
+  closeListbox(force: boolean): void
   openListbox(): void
   goToOption(focus: Focus, id?: string): void
   search(value: string): void
@@ -76,7 +77,7 @@ export let Listbox = defineComponent({
   props: {
     as: { type: [Object, String], default: 'template' },
     disabled: { type: [Boolean], default: false },
-    modelValue: { type: [Object, String, Number, Boolean], default: null },
+    modelValue: { type: [Object, String, Number, Boolean, Array], default: null }
   },
   setup(props, { slots, attrs, emit }) {
     let { modelValue, disabled, ...passThroughProps } = props
@@ -87,7 +88,7 @@ export let Listbox = defineComponent({
     let options = ref<StateDefinition['options']['value']>([])
     let searchQuery = ref<StateDefinition['searchQuery']['value']>('')
     let activeOptionIndex = ref<StateDefinition['activeOptionIndex']['value']>(null)
-
+    let multiple = Array.isArray(props.modelValue)
     let value = computed(() => props.modelValue)
 
     let api = {
@@ -100,8 +101,10 @@ export let Listbox = defineComponent({
       options,
       searchQuery,
       activeOptionIndex,
-      closeListbox() {
+      multiple,
+      closeListbox(force: boolean = false) {
         if (disabled) return
+        if (multiple && force === false) return
         if (listboxState.value === ListboxStates.Closed) return
         listboxState.value = ListboxStates.Closed
         activeOptionIndex.value = null
@@ -174,7 +177,17 @@ export let Listbox = defineComponent({
       },
       select(value: unknown) {
         if (disabled) return
-        emit('update:modelValue', value)
+        if (multiple) {
+          const arr = toRaw(props?.modelValue) ?? []
+          const index = arr.indexOf(value)
+          console.log(index, arr, value)
+          if (index === -1) {
+            emit('update:modelValue', [...arr, value])
+          } else {
+            emit('update:modelValue', arr.filter((x, i) => i !== index))
+          }
+        } else
+          emit('update:modelValue', value)
       },
     }
 
@@ -186,7 +199,7 @@ export let Listbox = defineComponent({
         if (listboxState.value !== ListboxStates.Open) return
         if (buttonRef.value?.contains(target)) return
 
-        if (!optionsRef.value?.contains(target)) api.closeListbox()
+        if (!optionsRef.value?.contains(target)) api.closeListbox(true)
         if (active !== document.body && active?.contains(target)) return // Keep focus on newly clicked/focused element
         if (!event.defaultPrevented) buttonRef.value?.focus({ preventScroll: true })
       }
@@ -303,7 +316,7 @@ export let ListboxButton = defineComponent({
     function handleClick(event: MouseEvent) {
       if (api.disabled) return
       if (api.listboxState.value === ListboxStates.Open) {
-        api.closeListbox()
+        api.closeListbox(true)
         nextTick(() => api.buttonRef.value?.focus({ preventScroll: true }))
       } else {
         event.preventDefault()
@@ -376,7 +389,7 @@ export let ListboxOptions = defineComponent({
             let { dataRef } = api.options.value[api.activeOptionIndex.value]
             api.select(dataRef.value)
           }
-          api.closeListbox()
+          api.closeListbox(false)
           nextTick(() => api.buttonRef.value?.focus({ preventScroll: true }))
           break
 
@@ -400,7 +413,7 @@ export let ListboxOptions = defineComponent({
 
         case Keys.Escape:
           event.preventDefault()
-          api.closeListbox()
+          api.closeListbox(true)
           nextTick(() => api.buttonRef.value?.focus({ preventScroll: true }))
           break
 
@@ -440,7 +453,16 @@ export let ListboxOption = defineComponent({
         : false
     })
 
-    let selected = computed(() => toRaw(api.value.value) === toRaw(value))
+    let selected = computed(() => {
+      const rawApiValue = toRaw(api.value.value)
+      const rawValue = toRaw(value)
+
+      if (api.multiple) {
+        return (rawApiValue as any[]).includes(rawValue)
+      } else {
+        return rawApiValue === rawValue
+      }
+    })
 
     let dataRef = ref<ListboxOptionDataRef['value']>({ disabled, value, textValue: '' })
     onMounted(() => {
@@ -460,6 +482,8 @@ export let ListboxOption = defineComponent({
         () => {
           if (api.listboxState.value !== ListboxStates.Open) return
           if (!selected.value) return
+          if (api.multiple) return
+
           api.goToOption(Focus.Specific, id)
           document.getElementById(id)?.focus?.()
         },
@@ -476,7 +500,7 @@ export let ListboxOption = defineComponent({
     function handleClick(event: MouseEvent) {
       if (disabled) return event.preventDefault()
       api.select(value)
-      api.closeListbox()
+      api.closeListbox(false)
       nextTick(() => api.buttonRef.value?.focus({ preventScroll: true }))
     }
 

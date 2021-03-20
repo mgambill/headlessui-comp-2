@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import ListboxPage from "../views/Listbox.vue";
 import MenuPage from "../views/Menu.vue";
 import SwitchPage from "../views/Switch.vue";
+import MultiListboxPage from "../views/MultiListbox-2.vue";
 const routes = [
   {
     path: "/",
@@ -16,6 +17,11 @@ const routes = [
     path: "/switch",
     name: "switch",
     component: SwitchPage
+  },
+  {
+    path: "/multi",
+    name: "multi",
+    component: MultiListboxPage
   },
   {
     path: "/listbox",
