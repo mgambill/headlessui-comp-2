@@ -4,6 +4,8 @@
     ListviewOptions.-mb-2px.flex.space-x-8(role="tabs")
       ListviewOption(v-for="o in options" :key="o" :value="o" v-slot="context")
         a(:class="tabClass(context)") {{ o }}
+
+pre.mt-8.text-sm {{ { current } }}
 </template>
 
 <script lang="ts" setup>

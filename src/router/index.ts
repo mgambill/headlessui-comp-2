@@ -1,10 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
-import ListboxPage from "../views/Listbox.vue";
-import MenuPage from "../views/Menu.vue";
-import SwitchPage from "../views/Switch.vue";
-import MultiListboxPage from "../views/MultiListbox-2.vue";
-import TabsPage from "../views/Tabs.vue";
-import SidebarPage from "../views/Sidebar.vue";
+import MainPage from "../views/Main.vue";
+
 export const routes = [
   {
     path: "/",
@@ -12,16 +8,90 @@ export const routes = [
   },
   {
     path: "/menu",
-    name: "menu",
+    component: MainPage,
     label: "Menu",
-    component: MenuPage
+    children: [
+      {
+        path: '',
+        name: 'simple-menu',
+        label: 'Simple',
+        component: () => import(/* webpackChunkName: "menu" */ '../views/Menu.vue')
+      }
+    ]
+  },
+  {
+    path: "/switch",
+    component: MainPage,
+    label: "Switch",
+    children: [
+      {
+        path: '',
+        name: 'simple-switch',
+        label: 'Simple',
+        component: () => import(/* webpackChunkName: "switch" */ '../views/Switch.vue')
+      },
+      {
+        path: 'switch-advanced',
+        name: 'advanced-switch',
+        label: 'Advanced',
+        component: () => import(/* webpackChunkName: "switch" */ '../views/SwitchButton.vue')
+      }
+    ]
   },
   {
     path: "/listbox",
-    name: "listbox",
+    component: MainPage,
     label: "Listbox",
-    component: ListboxPage
+    children: [
+      {
+        path: "",
+        name: "listbox",
+        label: "Listbox",
+        component: () => import(/* webpackChunkName: "listbox" */ '../views/Listbox.vue')
+      },
+      {
+        path: "multi",
+        name: "multi",
+        label: "MultiSelect (beta)",
+        component: () => import(/* webpackChunkName: "listbox" */ '../views/MultiListbox.vue'),
+
+      },
+      {
+        path: "multi-model",
+        name: "multi-model",
+        label: "MultiSelect (Model beta)",
+        component: () => import(/* webpackChunkName: "listbox" */ '../views/MultiListbox-2.vue'),
+
+      },
+    ]
   },
+  {
+    path: "/listview",
+    component: MainPage,
+    label: "Listview",
+    children: [
+      {
+        path: "",
+        name: "sidebar",
+        label: "Sidebar",
+        component: () => import(/* webpackChunkName: "listview" */ '../views/Sidebar.vue')
+      },
+      {
+        path: "sidebar-multi",
+        name: "sidebar-multi",
+        label: "Sidebar (multiple)",
+        component: () => import(/* webpackChunkName: "listview" */ '../views/Sidebar.vue'),
+        props: () => ({ multiple: true })
+      },
+      {
+        path: "listview-tabs",
+        name: "listview-tabs",
+        label: "Tabs",
+        component: () => import(/* webpackChunkName: "listview" */ '../views/Tabs.vue')
+      }
+    ]
+  }
+  /*
   {
     path: "/switch",
     name: "switch",
@@ -29,10 +99,10 @@ export const routes = [
     component: SwitchPage
   },
   {
-    path: "/multi",
-    name: "multi",
-    label: "MultiSelect (beta)",
-    component: MultiListboxPage
+    path: "/switch-button",
+    name: "switch-button",
+    label: "Switch Button (beta)",
+    component: ListButtonPage
   },
   {
     path: "/sidebar",
@@ -46,7 +116,7 @@ export const routes = [
     label: "Tabs (beta)",
     component: TabsPage
   },
-
+*/
 ];
 
 const router = createRouter({

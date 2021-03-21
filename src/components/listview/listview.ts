@@ -75,18 +75,14 @@ export let Listview = defineComponent({
     let value = computed(() => props.modelValue)
 
     let api = {
-
       value,
       optionsRef,
       disabled,
       options,
-
       activeOptionIndex,
       multiple,
-
       goToOption(focus: Focus, id?: string) {
         if (disabled) return
-
         let nextActiveOptionIndex = calculateActiveIndex(
           focus === Focus.Specific
             ? { focus: Focus.Specific, id: id! }
@@ -173,7 +169,7 @@ export let ListviewOptions = defineComponent({
   render() {
     let api = useListviewContext('ListviewOptions')
 
-    let slot = {}
+    let slot = { }
     let propsWeControl = {
       'aria-activedescendant':
         api.activeOptionIndex.value === null
@@ -254,6 +250,7 @@ export let ListviewOption = defineComponent({
     disabled: { type: Boolean, default: false },
     class: { type: [String, Function], required: false },
     className: { type: [String, Function], required: false },
+    index: { type: Number, default: null }
   },
   setup(props, { slots, attrs }) {
     let api = useListviewContext('ListviewOption')
@@ -332,7 +329,7 @@ export let ListviewOption = defineComponent({
     }
 
     return () => {
-      let slot = { active: active.value, selected: selected.value, disabled }
+      let slot = { active: active.value, selected: selected.value, disabled, index: props.index }
       let propsWeControl = {
         id,
         role: 'option',

@@ -57,7 +57,7 @@ export function render({
       [RenderStrategy.Hidden]() {
         return _render({
           ...main,
-          props: { ...main.props, hidden: true, style: { display: 'none' } },
+          props: { ...main?.props ?? {}, hidden: true, style: { display: 'none' } },
         })
       },
     })

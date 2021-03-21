@@ -6,15 +6,24 @@ section.justify-center.flex-1
         template(v-for="m in menu" :key="m.path")
           router-link(custom :to="m.path" v-slot="context")
             a(v-bind="getProps(m, context)")
-              | {{ m.label }}
+              span.mr-3 {{ m.label }}
+              span.bg-white.ml-auto.inline-block.px-2.text-xs.rounded-full(class="py-0.5") {{ m.children?.length }}
   .container.py-4.mx-auto
-    .flex.items-center.justify-center.p-12
-      router-view(:key="$route.fullPath")
+    .flex
+      nav.w-48.space-y-1(aria-label="Sidebar")
+        template(v-if="$route.matched[0]?.children")
+          template(v-for="t in $route.matched[0].children")
+            router-link(custom :to="{ name: t.name }" v-slot="{ isExactActive, navigate, href }")
+              a.flex.items-center.px-3.py-2.text-sm.font-medium.rounded-md(:href="href" :class="isExactActive ? 'text-indigo-600 bg-gray-100' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'" @click="navigate")
+                span.truncate {{ t.label }}
+
+      .flex.flex-1.flex-col.items-center.justify-center.p-12
+        router-view(:key="$route.fullPath" :routes="routes")
 </template>
 
 <script lang="ts" setup>
 import { routes } from "./router";
-const menu = routes.filter((x) => x.component)
+const menu = routes.filter((x) => x.component);
 
 const getProps = (m: any, context: any) => {
   const { href, navigate, isActive } = context;
