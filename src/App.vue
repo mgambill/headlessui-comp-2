@@ -1,10 +1,10 @@
 <template lang="pug">
 section.justify-center.flex-1
-  header.pt-4.bg-gray-100.border-b.border-gray-200
+  header.pt-4.bg-gray-100.border-b-2.border-gray-200
     .container.mx-auto
-      nav.flex.-mb-px.space-x-8(aria-label="Tabs")
-        template(v-for="m in menu" :key="m.to")
-          router-link(custom :to="m.to" v-slot="context")
+      nav.flex.-mb-2px.space-x-8(aria-label="Tabs")
+        template(v-for="m in menu" :key="m.path")
+          router-link(custom :to="m.path" v-slot="context")
             a(v-bind="getProps(m, context)")
               | {{ m.label }}
   .container.py-4.mx-auto
@@ -13,12 +13,8 @@ section.justify-center.flex-1
 </template>
 
 <script lang="ts" setup>
-const menu = [
-  { to: "/listbox", label: "Listbox" },
-  { to: "/multi", label: "MultiListbox (beta)" },
-  { to: "/menu", label: "Menu" },
-  { to: "/switch", label: "Switch" },
-];
+import { routes } from "./router";
+const menu = routes.filter((x) => x.component)
 
 const getProps = (m: any, context: any) => {
   const { href, navigate, isActive } = context;
