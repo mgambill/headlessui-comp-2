@@ -12,7 +12,7 @@
       transition(leave-active-class="transition duration-100 ease-in" leave-from-class="opacity-100" leave-to-class="opacity-0")
         .absolute.w-full.mt-1.bg-white.rounded-md.shadow-lg(v-if="open")
           ListboxOptions.py-1.overflow-auto.text-base.leading-6.rounded-md.shadow-xs.max-h-60.space-y-px.pl-px(class="focus:outline-none sm:text-sm sm:leading-5" static)
-            ListboxOption(v-for="person in people" :key="person" :value="person" v-slot="{ selected, active }")
+            ListboxOption(v-for="person in people" :key="person" :value="person" v-slot="{ selected, active }" @click="onClick")
               .mr-px(:class="`${selected && active ? 'bg-gray-700 text-white' : selected ? 'bg-gray-200' : active ? 'text-white bg-blue-600' : 'text-gray-900'} cursor-default select-none relative py-2 pl-8 pr-4`")
                 span(:class="`${selected ? 'font-semibold' : 'font-normal'} block truncate`")
                   | {{ person }}
@@ -28,4 +28,6 @@ import { Listbox, ListboxLabel, ListboxButton, ListboxOptions, ListboxOption } f
 
 const people = ["Wade Cooper", "Arlene Mccoy", "Devon Webb", "Tom Cook", "Tanya Fox", "Hellen Schmidt", "Caroline Schultz", "Mason Heaney", "Claudie Smitham", "Emil Schaefer"];
 const selectedPerson = ref([people[0], people[1]]);
+
+const onClick = (e) => console.log("onClick", e, selectedPerson);
 </script>

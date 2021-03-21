@@ -12,8 +12,8 @@
       transition(leave-active-class="transition duration-100 ease-in" leave-from-class="opacity-100" leave-to-class="opacity-0")
         .absolute.w-full.mt-1.bg-white.rounded-md.shadow-lg(v-if="open")
           ListboxOptions.py-1.overflow-auto.text-base.leading-6.rounded-md.shadow-xs.max-h-60.space-y-px.pl-px(class="focus:outline-none sm:text-sm sm:leading-5" static)
-            ListboxOption(v-for="person in people" :key="person.id" :value="person" v-slot="{ selected, active }")
-              .mr-px(:class="`${selected && active ? 'bg-gray-700 text-white' : selected ? 'bg-gray-200' : active ? 'text-white bg-blue-600' : 'text-gray-900'} cursor-default select-none relative py-2 pl-8 pr-4`")
+            ListboxOption(v-for="person in people" :key="person.id" :value="person" :disabled="person.disabled" v-slot="{ selected, active, disabled }")
+              .mr-px(:class="`${ disabled?'text-gray-200' : selected && active ? 'bg-gray-700 text-white' : selected ? 'bg-gray-200' : active ? 'text-white bg-blue-600' : 'text-gray-900'} cursor-default select-none relative py-2 pl-8 pr-4`")
                 span(:class="`${selected ? 'font-semibold' : 'font-normal'} block truncate`")
                   | {{ person.name }}
                 span(v-if="selected" :class="`${active ? 'text-white' : 'text-blue-600'} absolute inset-y-0 left-0 flex items-center pl-1.5`")
@@ -28,16 +28,16 @@ import { ref } from "vue";
 import { Listbox, ListboxLabel, ListboxButton, ListboxOptions, ListboxOption } from "../components/listbox/listbox";
 
 const people = [
-  { id: "01", name: "Wade Cooper" },
-  { id: "02", name: "Arlene Mccoy" },
-  { id: "03", name: "Devon Webb" },
-  { id: "04", name: "Tom Cook" },
-  { id: "05", name: "Tanya Fox" },
-  { id: "06", name: "Hellen Schmidt" },
-  { id: "07", name: "Caroline Schultz" },
-  { id: "08", name: "Mason Heaney" },
-  { id: "09", name: "Claudie Smitham" },
-  { id: "10", name: "Emil Schaefer" },
+  { id: "01", disabled: false, name: "Wade Cooper" },
+  { id: "02", disabled: false, name: "Arlene Mccoy" },
+  { id: "03", disabled: false, name: "Devon Webb" },
+  { id: "04", disabled: true, name: "Tom Cook" },
+  { id: "05", disabled: false, name: "Tanya Fox" },
+  { id: "06", disabled: false, name: "Hellen Schmidt" },
+  { id: "07", disabled: false, name: "Caroline Schultz" },
+  { id: "08", disabled: false, name: "Mason Heaney" },
+  { id: "09", disabled: false, name: "Claudie Smitham" },
+  { id: "10", disabled: true, name: "Emil Schaefer" },
 ];
 
 const selectedPerson = ref([people[0], people[1]]);

@@ -68,7 +68,7 @@ export const routes = [
   {
     path: "/listview",
     component: MainPage,
-    label: "Listview",
+    label: "Listview (beta)",
     children: [
       {
         path: "",
