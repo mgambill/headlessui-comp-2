@@ -124,7 +124,7 @@ export const routes = [
     name: "form",
     label: "Forms (beta)",
     visible: false,
-    component: () => import("../views/forms/Index.vue")
+    component: () => import(/* webpackChunkName: "what" */"../views/forms/Index.vue")
   }
 
 ];

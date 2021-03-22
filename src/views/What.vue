@@ -14,11 +14,11 @@
   article
     h1.text-gray-800.font-medium.text-2xl Source code
 
-    .grid.grid-cols-4
+    .grid.grid-cols-4.gap-4
       span Github
-      .grid-cols-3: a(href="https://github.com/mgambill/headlessui-comp-2" target="_blank") https://github.com/mgambill/headlessui-comp-2
+      .col-span-3: a(href="https://github.com/mgambill/headlessui-comp-2" target="_blank") https://github.com/mgambill/headlessui-comp-2
 
       span CodeSandbox
-      .grid-cols-3: a(href="https://codesandbox.io/s/github/mgambill/headlessui-comp-2" target="_blank") https://codesandbox.io/s/github/mgambill/headlessui-comp-2
+      .col-span-3: a(href="https://codesandbox.io/s/github/mgambill/headlessui-comp-2" target="_blank") https://codesandbox.io/s/github/mgambill/headlessui-comp-2
 
 </template>
