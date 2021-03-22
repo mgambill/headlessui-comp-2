@@ -16,9 +16,9 @@
 
     .grid.grid-cols-4.gap-4
       span Github
-      .col-span-3: a(href="https://github.com/mgambill/headlessui-comp-2" target="_blank") https://github.com/mgambill/headlessui-comp-2
+      .col-span-3: a.text-indigo-600(href="https://github.com/mgambill/headlessui-comp-2" target="_blank") https://github.com/mgambill/headlessui-comp-2
 
       span CodeSandbox
-      .col-span-3: a(href="https://codesandbox.io/s/github/mgambill/headlessui-comp-2" target="_blank") https://codesandbox.io/s/github/mgambill/headlessui-comp-2
+      .col-span-3: a.text-indigo-600(href="https://codesandbox.io/s/github/mgambill/headlessui-comp-2" target="_blank") https://codesandbox.io/s/github/mgambill/headlessui-comp-2
 
 </template>
