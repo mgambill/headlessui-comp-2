@@ -1,5 +1,5 @@
 <template lang="pug">
-.text-left.space-y-4
+.text-left.space-y-10
   article
     h1.text-gray-800.font-medium.text-2xl What is this ?
     .text-gray-600.mt-4
@@ -14,7 +14,7 @@
   article
     h1.text-gray-800.font-medium.text-2xl Source code
 
-    .grid.grid-cols-4.gap-4
+    .grid.grid-cols-4.gap-4.mt-4
       span Github
       .col-span-3: a.text-indigo-600(href="https://github.com/mgambill/headlessui-comp-2" target="_blank") https://github.com/mgambill/headlessui-comp-2
 

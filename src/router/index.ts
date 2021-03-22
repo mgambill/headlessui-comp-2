@@ -10,7 +10,7 @@ export const routes = [
     path: "/wtf",
     name: "wtf",
     visible: false,
-    component: () => import("../views/what.vue")
+    component: () => import("../views/What.vue")
   },
   {
     path: "/menu",
