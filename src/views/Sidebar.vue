@@ -8,7 +8,7 @@
           svg.w-6.h-6(xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke="currentColor" aria-hidden="true")
             path(stroke-linecap="round" stroke-linejoin="round" stroke-width="2" :d="o.icon")
 
-pre.mt-8.text-sm {{ { current } }}
+pre.mt-8.text-sm(class="max-w-2xl overflow-auto") {{ { current } }}
 
 </template>
 

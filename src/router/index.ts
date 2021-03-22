@@ -7,6 +7,12 @@ export const routes = [
     redirect: "/listbox"
   },
   {
+    path: "/wtf",
+    name: "wtf",
+    visible: false,
+    component: () => import("../views/what.vue")
+  },
+  {
     path: "/menu",
     component: MainPage,
     label: "Menu",
@@ -61,7 +67,6 @@ export const routes = [
         name: "multi-model",
         label: "MultiSelect (Model beta)",
         component: () => import(/* webpackChunkName: "listbox" */ '../views/MultiListbox-2.vue'),
-
       },
     ]
   },
@@ -72,6 +77,10 @@ export const routes = [
     children: [
       {
         path: "",
+        redirect: { name: "sidebar" },
+      },
+      {
+        path: "sidebar",
         name: "sidebar",
         label: "Sidebar",
         component: () => import(/* webpackChunkName: "listview" */ '../views/Sidebar.vue')
@@ -80,43 +89,44 @@ export const routes = [
         path: "sidebar-multi",
         name: "sidebar-multi",
         label: "Sidebar (multiple)",
-        component: () => import(/* webpackChunkName: "listview" */ '../views/Sidebar.vue'),
-        props: () => ({ multiple: true })
+        component: () => import(/* webpackChunkName: "listview" */ '../views/Sidebar.vue')
       },
       {
-        path: "listview-tabs",
+        path: "tabs",
         name: "listview-tabs",
         label: "Tabs",
         component: () => import(/* webpackChunkName: "listview" */ '../views/Tabs.vue')
-      }
+      },
+      {
+        path: "accordion",
+        name: "accordion",
+        label: "Accordion",
+        component: () => import(/* webpackChunkName: "listview" */ '../views/Accordion.vue')
+      },
+      {
+        path: "accordion-empty",
+        name: "accordion-empty",
+        label: "Accordion (close-able)",
+        component: () => import(/* webpackChunkName: "listview" */ '../views/Accordion.vue'),
+        props: () => ({ closable: true })
+      },
+      {
+        path: "accordion-multiple",
+        name: "accordion-multiple",
+        label: "Accordion (multiple)",
+        component: () => import(/* webpackChunkName: "listview" */ '../views/Accordion.vue'),
+        props: () => ({ multiple: true })
+      },
     ]
+  },
+  {
+    path: "/forms",
+    name: "form",
+    label: "Forms (beta)",
+    visible: false,
+    component: () => import("../views/forms/Index.vue")
   }
-  /*
-  {
-    path: "/switch",
-    name: "switch",
-    label: "Switch",
-    component: SwitchPage
-  },
-  {
-    path: "/switch-button",
-    name: "switch-button",
-    label: "Switch Button (beta)",
-    component: ListButtonPage
-  },
-  {
-    path: "/sidebar",
-    name: "sidebar",
-    label: "Sidebar (beta)",
-    component: SidebarPage
-  },
-  {
-    path: "/tabs",
-    name: "tabs",
-    label: "Tabs (beta)",
-    component: TabsPage
-  },
-*/
+
 ];
 
 const router = createRouter({
